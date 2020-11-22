@@ -53,7 +53,7 @@
   kubectl get nodes -w
 
   # Run Dashboard
-  curl -L -s kubectl apply -f https://raw.githubusercontent.com/kubernetesdashboard/v2.0.4/aio/deploy/recommended.yaml | sed 's/targetPort: 8443targetPort: 8443\n  type: LoadBalancer/' | kubectl apply -f -
+  curl -L -s https://raw.githubusercontent.com/kubernetesdashboard/v2.0.4/aio/deploy/recommended.yaml | sed 's/targetPort: 8443targetPort: 8443\n  type: LoadBalancer/' | kubectl apply -f -
   
   # Verify Dashboard
   kubectl get pods -n kubernetes-dashboard
@@ -67,7 +67,7 @@
   kubectl describe secrets kubernetes-dashboard-token-<XX> -n kube-system
   
   # Delete Dashboard
-  curl -L -s kubectl apply -f https://raw.githubusercontent.com/kubernetesdashboard/v2.0.4/aio/deploy/recommended.yaml | sed 's/targetPort: 8443targetPort: 8443\n  type: LoadBalancer/' | kubectl delete -f -
+  curl -L -s https://raw.githubusercontent.com/kubernetesdashboard/v2.0.4/aio/deploy/recommended.yaml | sed 's/targetPort: 8443targetPort: 8443\n  type: LoadBalancer/' | kubectl delete -f -
 
   # Run Nginx Server
   kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
@@ -85,7 +85,7 @@
   kubectl run nginx --image=nginx:latest --replicas=4
   kubectl delete pods nginx
   ```
-  
+
 - Istio Installation Steps   
   ```sh
   # Download Software
@@ -124,6 +124,7 @@
   # Below files available in MyDev Folder
 
   # Create Istio HelloWorld containing Deployments, Service, Gateway & VirtualService
+  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/helloworld.yaml | kubectl apply -f -t
   kubectl apply -f helloworld.yaml -n default
 
   # Create istiocanary i.e HelloKube
