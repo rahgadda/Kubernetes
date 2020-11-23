@@ -124,16 +124,19 @@
   # Below files available in MyDev Folder
 
   # Create Istio HelloWorld containing Deployments, Service, Gateway & VirtualService
-  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/helloworld.yaml | kubectl apply -f
+  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/helloworld.yaml | kubectl apply -f -
   kubectl apply -f helloworld.yaml -n default
 
   # Create istiocanary i.e HelloKube
+  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/kube-canary-app.yaml | kubectl apply -f -
   kubectl apply -f kube-canary-app.yaml -n default
 
   # Create kubecanary i.e HelloService v1 & v2
+  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/hello-message-app.yaml | kubectl apply -f -
   kubectl apply -f hello-message-app.yaml -n default
 
   # Configure Istio Gateway, VirtualService & Destination Rule
+  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/istio-config.yaml | kubectl apply -f -
   kubectl apply -f istio-config.yaml
 
   # Get SVC Details
