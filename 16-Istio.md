@@ -124,7 +124,7 @@
   # Below files available in MyDev Folder
 
   # Create Istio HelloWorld containing Deployments, Service, Gateway & VirtualService
-  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/helloworld.yaml | kubectl apply -f -t
+  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/helloworld.yaml | kubectl apply -f
   kubectl apply -f helloworld.yaml -n default
 
   # Create istiocanary i.e HelloKube
