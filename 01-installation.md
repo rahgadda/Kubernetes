@@ -1,6 +1,6 @@
 # Kubernetes
 
-## Installation
+## VM
 - Identify Servers as below
   - Master [Rahul   - whf00ddg.in.test.com]  
   - Node 1 [Rakesh  - whf00dfb.in.test.com] 
