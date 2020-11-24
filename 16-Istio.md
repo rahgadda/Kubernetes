@@ -37,55 +37,6 @@
 - **Istioctl** is configuration command line utility of Istio. It helps to create, list, modify and delete configuration resources in the Istio system.
 
 ## Installation
-- Labs K8
-  ```sh
-  # Create Master
-  kubeadm init --apiserver-advertise-address $(hostname -i) --pod-network-cidr 10.5.0.0/16
-
-  # Initialize Networking
-  kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
-
-  # Create Nodes
-  kubeadm join 192.168.0.23:6443 --token sqf8s3.hdtryi32bh389uzb \
-    --discovery-token-ca-cert-hash sha256:9bafb85c63af4c347c666413c1253a5b4a58322280301c57ba0f41f280e8dc16
-
-  # Check Status
-  kubectl get nodes -w
-
-  # Run Dashboard
-  curl -L -s https://raw.githubusercontent.com/kubernetesdashboard/v2.0.4/aio/deploy/recommended.yaml | sed 's/targetPort: 8443targetPort: 8443\n  type: LoadBalancer/' | kubectl apply -f -
-  
-  # Verify Dashboard
-  kubectl get pods -n kubernetes-dashboard
-  kubectl get svc -n kubernetes-dashboard
-  kubectl proxy --address='0.0.0.0' --accept-hosts='^*$' --port=8001
-  curl -L  -s http://localhost:8001/api/v1
-
-  # Access Dashboard
-  kubectl get services kubernetes-dashboard -n kube-system
-  kubectl describe serviceaccount kubernetes-dashboard -n kube-system
-  kubectl describe secrets kubernetes-dashboard-token-<XX> -n kube-system
-  
-  # Delete Dashboard
-  curl -L -s https://raw.githubusercontent.com/kubernetesdashboard/v2.0.4/aio/deploy/recommended.yaml | sed 's/targetPort: 8443targetPort: 8443\n  type: LoadBalancer/' | kubectl delete -f -
-
-  # Run Nginx Server
-  kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
-  kubectl get pods -w
-  kubectl get deployments
-  kubectl expose deploy/nginx-deployment --port 80 --type=LoadBalancer
-  kubectl get svc
-
-  # Delete Nginx Server
-  kubectl delete deployments nginx-deployment
-  kubectl delete svc nginx-deployment
-
-  # General Commands
-  kubectl get pods
-  kubectl run nginx --image=nginx:latest --replicas=4
-  kubectl delete pods nginx
-  ```
-
 - Istio Installation Steps   
   ```sh
   # Download Software
@@ -162,6 +113,6 @@
     echo $i `curl -s http://localhost:$INGRESS_PORT/welcome`
   done
   ```
-
+- 
 ## Reference
 - [Installation](https://istio.io/latest/docs/setup/getting-started/)
