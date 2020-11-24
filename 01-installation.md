@@ -2,9 +2,9 @@
 
 ## VM
 - Identify Servers as below
-  - Master [Rahul   - whf00ddg.in.test.com]  
-  - Node 1 [Rakesh  - whf00dfb.in.test.com] 
-  - Node 2 [Pavan   - whf00bbs.in.test.com]
+  - Master [M1   - whf00ddg.in.test.com]  
+  - Node 1 [N1  - whf00dfb.in.test.com] 
+  - Node 2 [N2   - whf00bbs.in.test.com]
 - On all nodes perform below:
   ```bash
   $ sudo su
@@ -26,6 +26,7 @@
       export no_proxy="localhost,127.0.0.1,.testcorp.com,.in.test.com,10.40.65.121,10.96.0.1";
     $ systemctl  start docker
     $ chmod 777 /var/run/docker.sock
+    
     # Configuring Network
     $ /usr/sbin/route
     $ /usr/sbin/setenforce 0
@@ -39,16 +40,19 @@
     $ firewall-cmd --add-port=8472/udp --permanent
     $ systemctl restart firewalld
     $ /usr/sbin/lsmod|grep br_netfilter
-    # Install repo
+    
+    # Install Repo
     $ yum install -y yum-utils
     $ yum repolist
     $ yum-config-manager --enable ol7_addons
     $ yum-config-manager --enable ol7_preview
     $ exit
+  
   # Proxy Details
   $ export http_proxy="http://rmdc-proxy.test.com:80"
   $ export https_proxy="http://rmdc-proxy.test.com:80"
   $ export no_proxy="localhost,127.0.0.1,.testcorp.com,.in.test.com,10.40.65.121,10.96.0.1"
+  
   # Validating Docker
   $ docker info
   $ docker run hello-world
