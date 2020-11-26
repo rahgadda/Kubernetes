@@ -64,7 +64,6 @@
   kubectl apply -f samples/addons/grafana.yaml
   kubectl apply -f samples/addons/jaeger.yaml
   kubectl apply -f samples/addons/kiali.yaml
-  kubectl apply -f samples/addons/extras/zipkin.yaml
 
   # Upgrade Istio
   istioctl upgrade
@@ -79,6 +78,10 @@
   kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
   kubectl get svc -n istio-system
   kubectl get pods -n istio-system
+
+  # Dashboard
+  istioctl dashboard
+  istioctl dashboard kiali
   ```
 
 ## Module
