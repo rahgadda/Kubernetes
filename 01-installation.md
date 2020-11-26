@@ -157,8 +157,8 @@
   kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
 
   # Create Nodes
-  kubeadm join 192.168.0.13:6443 --token vnl9r7.76lans2dcaaubukq \
-    --discovery-token-ca-cert-hash sha256:5cb56ff84a96d510447deb472898c538d8adfa55ac81a6a3619d1df83625e7d1
+  kubeadm join 192.168.0.8:6443 --token 7b0225.8lvnln4kjny3tagu \
+    --discovery-token-ca-cert-hash sha256:e306f7fa636a8f32a7c6230c6e9d1f86a76bb2e4cfa2870051e698fd7eefa3da
 
   # Check Status
   kubectl get nodes -w

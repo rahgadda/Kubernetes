@@ -45,10 +45,26 @@
   export PATH=$PWD/bin:$PATH
   echo 'export PATH=~/istio*/bin:$PATH' >> ~/.bashrc
 
-  # Installing Istio with demo configuration profile
+  # Installation Pre-Check
   istioctl x precheck
+
+  # List Profiles
+  istioctl profile list
+
+  # Installing Istio with demo configuration profile
   istioctl install --set profile=demo -y
   istioctl install --set revision=<revision>
+
+  # Generate Istio Profile
+  istioctl manifest generate --set profile=demo >> istio.yaml
+  kubectl apply -f istio.yaml
+
+  # Addons
+  kubectl apply -f samples/addons/prometheus.yaml
+  kubectl apply -f samples/addons/grafana.yaml
+  kubectl apply -f samples/addons/jaeger.yaml
+  kubectl apply -f samples/addons/kiali.yaml
+  kubectl apply -f samples/addons/extras/zipkin.yaml
 
   # Upgrade Istio
   istioctl upgrade
