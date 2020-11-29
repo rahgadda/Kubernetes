@@ -86,52 +86,79 @@
 
 ## Module
 - Canary Release Example
-  ![](./images/34-IstioExample1.png)
+  - **Example 1: HelloWorld**
+    ```sh
+    # Below files available in MyDev Folder
 
-  ```sh
-  # Login to https://labs.play-with-k8s.com/
-  # Spring Project flow HelloKube (docker: pmusale/istiocanary) -> HelloService (docker: pmusale/kubecanary v1,v2)
-  # Below files available in MyDev Folder
+    # Create Istio HelloWorld containing Deployments, Service,  Gateway & VirtualService
+    # curl -L -s https://raw.githubusercontent.com/rahgadda/  Kubernetes/master/MyDev/helloworld.yaml | kubectl apply -f -
+    kubectl apply -f helloworld.yaml -n default
 
-  # Create Istio HelloWorld containing Deployments, Service, Gateway & VirtualService
-  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/helloworld.yaml | kubectl apply -f -
-  kubectl apply -f helloworld.yaml -n default
+    # Get SVC Details
+    kubectl get svc
+    kubectl get svc -n istio-system
+    kubectl get svc -n istio-system -l app=istio-ingressgateway
 
-  # Create istiocanary i.e HelloKube
-  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/kube-canary-app.yaml | kubectl apply -f -
-  kubectl apply -f kube-canary-app.yaml -n default
+    # Get Istio Proxy Status
+    istioctl ps
 
-  # Create kubecanary i.e HelloService v1 & v2
-  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/hello-message-app.yaml | kubectl apply -f -
-  kubectl apply -f hello-message-app.yaml -n default
+    # Get Ingress Port Mapping
+    export INGRESS_PORT=$(kubectl -n istio-system get service   istio-ingressgateway -o jsonpath='{.spec.ports[?(@. name=="http2")].nodePort}')
 
-  # Configure Istio Gateway, VirtualService & Destination Rule
-  # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/istio-config.yaml | kubectl apply -f -
-  kubectl apply -f istio-config.yaml
+    # Test URL curl http://$URL:$INGRESS_PORT/hello
+    ```
+  - **Example 2: Welcome**
+    ![](./images/34-IstioExample1.png)
 
-  # Get SVC Details
-  kubectl get svc
-  kubectl get svc -n istio-system
-  kubectl get svc -n istio-system -l app=istio-ingressgateway
+    ```sh
+    # Spring Project flow HelloKube (docker: pmusale/ istiocanary) -> HelloService (docker: pmusale/kubecanary v1, v2)
+    # Below files available in MyDev Folder  
 
-  # Get Istio Proxy Status
-  istioctl ps
+    # Create istiocanary i.e HelloKube
+    # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/kube-canary-app.yaml | kubectl  apply -f -
+    kubectl apply -f kube-canary-app.yaml -n default
 
-  # Get Ingress Port Mapping
-  export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-  
-  # Test URL curl http://$URL:$INGRESS_PORT/hello
-  # Test URL curl http://$URL:$INGRESS_PORT/welcome
+    # Create kubecanary i.e HelloService v1 & v2
+    # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/hello-message-app.yaml | kubectl  apply -f -
+    kubectl apply -f hello-message-app.yaml -n default
 
-  # Script to print
-  vi test.bash
-  
-  #!/bin/bash
-  for i in {1..100}
-  do
-    echo $i `curl -s http://localhost:$INGRESS_PORT/welcome`
-  done
-  ```
-- 
+    # Configure Istio Gateway, VirtualService & Destination Rule
+    # curl -L -s https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/istio-config.yaml | kubectl apply -f -
+    kubectl apply -f istio-config.yaml
+
+    # Get SVC Details
+    kubectl get svc
+    kubectl get svc -n istio-system
+    kubectl get svc -n istio-system -l app=istio-ingressgateway
+
+    # Get Istio Proxy Status
+    istioctl ps
+
+    # Test URL curl http://$URL:$INGRESS_PORT/welcome
+    # Script to print
+    vi test.bash
+
+    #!/bin/bash
+    
+    INGRESS_PORT=`kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'`
+    
+    for i in {1..100}
+    do
+      echo $i `curl -s http://localhost:$INGRESS_PORT/welcome`
+    done
+
+    # Running Test File
+    source test.bash
+    ```
+    
+  - **Example 3: Telemetrics**
+    ```sh
+    istioctl dashboard grafana
+    kubectl port-forward -n istio-system --address 0.0.0.0 3000:3000
+    
+    istioctl dashboard jaeger
+    istioctl dashboard kiali
+    istioctl dashboard prometheus
+    ```
 ## Reference
 - [Installation](https://istio.io/latest/docs/setup/getting-started/)

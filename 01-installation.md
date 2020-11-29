@@ -157,8 +157,8 @@
   kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
 
   # Create Nodes
-  kubeadm join 192.168.0.8:6443 --token 7b0225.8lvnln4kjny3tagu \
-    --discovery-token-ca-cert-hash sha256:e306f7fa636a8f32a7c6230c6e9d1f86a76bb2e4cfa2870051e698fd7eefa3da
+  kubeadm join 192.168.0.8:6443 --token zt3scu.vk4mgfb0retw0czj \
+    --discovery-token-ca-cert-hash sha256:1ba80271e46fc8b832288c8ca1abd1bb7ead68417756be698c9dbf46f992d5ba
 
   # Check Status
   kubectl get nodes -w
@@ -199,6 +199,28 @@
   kubectl get pods
   kubectl run nginx --image=nginx:latest --replicas=4
   kubectl delete pods nginx
+  ```
+
+## Katakoda
+- Identify k8 cluster from [here](https://www.katacoda.community/environments.html#deprecated-environments)
+- Run below commands
+  ```sh
+  # If selected (Pre-configured) below steps are not required
+  # launch.sh will perform below
+
+  # Create Cluster
+  kubeadm init --kubernetes-version $(kubeadm version -o short)
+  
+  # Copy K8 Config Details
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+  # Join Master to Node
+  kubeadm join 172.17.0.48:6443 --token zq8mpm.knjzsexj1e7eojsa     --discovery-token-ca-cert-hash sha256:2f2512d04a37fa71a43094ac49bd452fbdeff48bb8515289dd894d55680a47f2
+
+  # Validate Cluster
+  kubectl get nodes
   ```
 
 ## Examples
