@@ -5,7 +5,6 @@ metadata:
   namespace: cert-manager
 spec:
   secretName: letsencrypt-stage-secret
-  commonName: letsencrypt-stage-secret
   dnsNames:
   - cfs-lending.myvnc.com
   issuerRef:
