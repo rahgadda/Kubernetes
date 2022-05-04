@@ -15,7 +15,7 @@ spec:
   tls:
     - hosts:
         - cfs-lending.myvnc.com
-      secretName: letsencrypt-stage-secret
+      secretName: letsencrypt-stage-dashboard-secret
   rules: 
     - 
       http:
