@@ -5,13 +5,13 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
-    # The ACME server URL
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # The ACME server URL https://acme-v02.api.letsencrypt.org/directory, https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
     # Email address used for ACME registration
     email: gaddam.rahul@gmail.com
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: letsencrypt-stage-secret
+      name: letsencrypt-prd-clusterissuer-secret
     # Add a single challenge solver, HTTP01 using nginx
     solvers:
     - selector: {}
