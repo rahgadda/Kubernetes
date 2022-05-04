@@ -18,8 +18,9 @@ spec:
     - host: cfs-lending.myvnc.com
       http:
         paths:
-        - backend:
-          service:
-            name: kubernetes-dashboard
-            port:
-              number: 443
+          - path: 
+            backend:
+              service:
+                name: kubernetes-dashboard
+                port:
+                  number: 443
