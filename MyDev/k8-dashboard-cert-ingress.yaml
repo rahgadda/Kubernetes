@@ -18,7 +18,8 @@ spec:
     - host: cfs-lending.myvnc.com
       http:
         paths:
-          - path: 
+          - path: /dashboard(/|$)(.*)
+            pathType: Prefix
             backend:
               service:
                 name: kubernetes-dashboard
