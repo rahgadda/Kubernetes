@@ -7,13 +7,5 @@ spec:
   secretName: letsencrypt-stage-secret
   dnsNames:
   - cfs-lending.myvnc.com
-  acme:
-    config:
-    - http01:
-        ingressClass: nginx
-      domains:
-      - cfs-lending.myvnc.com
   issuerRef:
     name: letsencrypt-stage-issuer
-    kind: ClusterIssuer
-    namespace: cert-manager
