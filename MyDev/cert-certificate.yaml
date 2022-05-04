@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: letsencrypt-stage-certificate
+  name: letsencrypt-prd-certificate
   namespace: kubernetes-dashboard
 spec:
-  secretName: letsencrypt-stage-dashboard-secret
+  secretName: letsencrypt-prd-certificate-secret
   dnsNames:
   - cfs-lending.myvnc.com
   issuerRef:
-    name: letsencrypt-stage-issuer
+    name: letsencrypt-prd-issuer
     kind: ClusterIssuer
     group: cert-manager.io
