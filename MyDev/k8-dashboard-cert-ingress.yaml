@@ -1,16 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata: 
-  annotations: 
+  annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/secure-backends: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Accept-Encoding "";
-      sub_filter '<base href="/">' '<base href="/dashboard/">';
-      sub_filter_once on;
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
   name: dashboard-ingress
   namespace: kubernetes-dashboard
   labels:
@@ -18,16 +12,14 @@ metadata:
 spec: 
   tls:
     - hosts:
-        - cfs-lending.myvnc.com
+      - cfs-lending.myvnc.com
       secretName: letsencrypt-stage-dashboard-secret
   rules: 
-    - 
+    - host: cfs-lending.myvnc.com
       http:
         paths:
-          - path: /dashboard(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: kubernetes-dashboard
-                port:
-                  number: 443
+        - backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 443
