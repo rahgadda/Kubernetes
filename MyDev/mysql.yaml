@@ -4,7 +4,7 @@ metadata:
     name: mysqlsecret
 type: Opaque
 data:
-   ROOT_PASSWORD: pbase64
+   ROOT_PASSWORD: bGVuZGluZy1kYg==
 ---
 apiVersion: v1
 kind: Service
@@ -20,6 +20,52 @@ spec:
     - name: tcp
       protocol: TCP
       port: 3306
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv
+spec:
+  capacity:
+    storage: 25Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+  storageClassName: local-storage
+  local:
+    path: "/home/opc/K8/01-Install/data"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - k8-master
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-local-pvc
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -39,7 +85,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: mysql
-          image: mysql:latest
+          image: mysql/mysql-server:latest
           ports:
             - name: tpc
               protocol: TCP
@@ -51,15 +97,13 @@ spec:
                 key: ROOT_PASSWORD
                 name: mysqlsecret
           volumeMounts:
-            - name: data
+            - name: mysql-local-pvc
               mountPath: /var/lib/mysql
   volumeClaimTemplates:
     - metadata:
-        name: data
+        name: mysql-local-pvc
       spec:
-        storageClassName: standard
-        accessModes:
-          - ReadWriteOnce
+        accessModes: [ "ReadWriteMany" ]
         resources:
           requests:
             storage: 10Gi
