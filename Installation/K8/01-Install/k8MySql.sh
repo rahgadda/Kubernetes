@@ -8,3 +8,4 @@ echo "Base64 Password - ${pbase64}"
 rm -rf mysql.yaml
 wget https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/mysql.yaml 
 sed -i "s/pbase64/$pbase64/g"  mysql.yaml
+kubectl apply -f mysql.yaml
