@@ -1,7 +1,5 @@
 #!/bin/sh
 
-#!/bin/sh
-
 echo "MySQL Root Password: "
 read password
 echo "Password entered is - ${password}"
@@ -11,6 +9,7 @@ rm -rf mysql.yaml
 wget https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/mysql.yaml 
 sed -i "s/pbase64/$pbase64/g"  mysql.yaml
 kubectl apply -f mysql.yaml
+kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # Verification
 kubectl get StorageClass # sc
