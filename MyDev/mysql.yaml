@@ -39,7 +39,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: mysql
-          image: mysql
+          image: mysql:latest
           ports:
             - name: tpc
               protocol: TCP
