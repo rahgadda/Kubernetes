@@ -9,7 +9,6 @@ rm -rf mysql.yaml
 wget https://raw.githubusercontent.com/rahgadda/Kubernetes/master/MyDev/mysql.yaml 
 sed -i "s/pbase64/$pbase64/g"  mysql.yaml
 kubectl apply -f mysql.yaml
-kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # Verification
 kubectl get StorageClass # sc
@@ -24,3 +23,5 @@ kubectl describe StatefulSets mysql
 kubectl get events
 kubectl delete PersistentVolumeClaim  mysql-local-pvc-mysql-0
 kubectl delete PersistentVolume local-pv
+kubectl get ReplicaSet
+# kubectl delete -f mysql.yaml --force
