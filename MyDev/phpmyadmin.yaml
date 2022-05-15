@@ -21,6 +21,8 @@ spec:
           ports:
             - containerPort: 80
           env:
+            # - name: PMA_ABSOLUTE_URI
+            #   value: http://cfs-lending.myvnc.com/myphpadmin/
             - name: PMA_HOST
               value: mysql
             - name: PMA_PORT
