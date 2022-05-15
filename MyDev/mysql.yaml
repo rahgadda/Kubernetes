@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Secret
 metadata: 
     name: mysqlsecret
+    labels:
+      app: mysql
 type: Opaque
 data:
    ROOT_PASSWORD: bGVuZGluZy1kYg==
@@ -59,30 +61,44 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-local-pvc
+  labels:
+    app: mysql
 spec:
-  storageClassName: local-storage
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: mysql
+  labels:
+    app: mysql
 spec:
-  replicas: 2
-  serviceName: mysql
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: mysql
     spec:
-      terminationGracePeriodSeconds: 10
+      initContainers:
+        - name: init-mysql
+          image: mysql/mysql-server:latest
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+          command:
+          - bash
+          - "-c"
+          - | 
+            rm -rf /var/lib/mysql/*
       containers:
         - name: mysql
           image: mysql/mysql-server:latest
@@ -97,13 +113,9 @@ spec:
                 key: ROOT_PASSWORD
                 name: mysqlsecret
           volumeMounts:
-            - name: mysql-local-pvc
+            - name: mysql-data
               mountPath: /var/lib/mysql
-  volumeClaimTemplates:
-    - metadata:
-        name: mysql-local-pvc
-      spec:
-        accessModes: [ "ReadWriteMany" ]
-        resources:
-          requests:
-            storage: 10Gi
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-local-pvc
