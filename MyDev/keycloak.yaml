@@ -56,7 +56,7 @@ spec:
         - name: DB_USER
           value: "keycloak"
         - name: DB_PASSWORD
-          value: "keycloak-db"
+          value: "keycloak@123"
         - name: JDBC_PARAMS
           value: "serverTimezone=UTC"
         ports:
