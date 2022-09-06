@@ -8,7 +8,12 @@
 
 ## eBPF
 - `eBPF` was first created in 2014. `Cilium` was first created in 2016.
-- 
+- Historically, the `operating system` has always been an ideal place to implement `observability, security, and networking functionality` due to the kernel’s privileged ability to oversee and control the entire system.
+- At the same time, `an operating system kernel is hard to evolve due to its central role and high requirement towards stability and security`.
+- eBPF changes this formula fundamentally by `allowing to run sandboxed programs within the operating system`, application developers can `run eBPF programs to add additional capabilities` to the operating system at runtime.
+- The `operating system guarantees` safety and execution efficiency as if natively compiled with the aid of a `Just-In-Time (JIT) compiler and verification engine`. 
+- eBPF programs are `event-driven` and are run when the kernel or an application passes a certain `hook point`. Pre-defined hooks include system calls, function entry/exit, kernel trace points, network events, and several others.
+![](./images/eBPF.png)
 
 ## Commands
 - Command to review Kubernetes Pod Networking. List all IP Tables for KUBE-SERVICE and review IP Tables for each service. 
