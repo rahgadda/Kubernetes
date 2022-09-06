@@ -32,22 +32,6 @@ kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/HEAD/examples/m
 kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
 kubectl exec xwing -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
 
-spec:
-  description: "L3-L4 policy to restrict deathstar access to empire ships only"
-  endpointSelector:
-    matchLabels:
-      org: empire
-      class: deathstar
-
-  ingress:
-  - fromEndpoints:
-    - matchLabels:
-        org: empire
-    toPorts:
-    - ports:
-      - port: "80"
-        protocol: TCP
-
 ```
 
 ## Commands
