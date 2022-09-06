@@ -15,12 +15,49 @@
 - eBPF programs are `event-driven` and are run when the kernel or an application passes a certain `hook point`. Pre-defined hooks include system calls, function entry/exit, kernel trace points, network events, and several others.
 ![](./images/eBPF.png)
 
+## Installation
+- Installation Steps
+```sh
+kubectl get nodes
+cilium install
+cilium status
+kubectl rollout status -n kube-system daemonset/cilium
+
+# Example
+kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/HEAD/examples/minikube/http-sw-app.yaml
+kubectl get pods,svc
+kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
+kubectl exec xwing -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
+kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/HEAD/examples/minikube/sw_l3_l4_policy.yaml
+kubectl exec tiefighter -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
+kubectl exec xwing -- curl -s -XPOST deathstar.default.svc.cluster.local/v1/request-landing
+
+spec:
+  description: "L3-L4 policy to restrict deathstar access to empire ships only"
+  endpointSelector:
+    matchLabels:
+      org: empire
+      class: deathstar
+
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        org: empire
+    toPorts:
+    - ports:
+      - port: "80"
+        protocol: TCP
+
+```
+
 ## Commands
 - Command to review Kubernetes Pod Networking. List all IP Tables for KUBE-SERVICE and review IP Tables for each service. 
     ```sh
     sudo iptables -n -t nat - L KUBE-SERVICE
     sudo iptables -n -t nat - L KUBE-SERVICE-XXXXX
     ```
+
+
 
 # Reference
 - [Official Documentation](https://docs.cilium.io/en/stable/gettingstarted/)
